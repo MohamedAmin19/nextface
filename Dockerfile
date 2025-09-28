@@ -12,7 +12,7 @@ COPY src /app/src
 RUN mvn clean package -DskipTests
 
 # Stage 2: Run the Spring Boot application
-FROM openjdk:17-jre-slim
+FROM openjdk:17-oracle
 
 WORKDIR /app
 
