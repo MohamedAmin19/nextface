@@ -1,26 +1,28 @@
-# Use OpenJDK base image for building the app
-FROM openjdk:17-jdk-slim as builder
+# Stage 1: Build the Spring Boot application
+FROM maven:3.8.4-openjdk-17-slim AS builder
 
-# Set the working directory
+# Set working directory inside the container
 WORKDIR /app
 
-# Copy the project files to the container
-COPY . .
+# Copy the pom.xml and download the dependencies (for faster builds)
+COPY pom.xml .
+RUN mvn dependency:go-offline
 
-# Build the application (skip tests for faster builds)
-RUN ./mvnw clean package -DskipTests
+# Copy the rest of your application code and build it
+COPY src /app/src
+RUN mvn clean package -DskipTests
 
-# Use a smaller JRE base image to run the app
+# Stage 2: Run the Spring Boot application
 FROM openjdk:17-jre-slim
 
-# Set the working directory in the second stage (for the final image)
+# Set working directory inside the container
 WORKDIR /app
 
 # Copy the built jar file from the builder stage
 COPY --from=builder /app/target/nextface-0.0.1-SNAPSHOT.jar app.jar
 
-# Expose the port the app will run on (default Spring Boot is 8080)
+# Expose the default port of Spring Boot
 EXPOSE 8080
 
-# Command to run the app
+# Run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
