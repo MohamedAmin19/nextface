@@ -32,6 +32,7 @@ public class SecurityConfig implements WebMvcConfigurer {
         registry.addMapping("/api/**")
                 .allowedOrigins(
                         "http://localhost:5175",
+                        "http://localhost:5176",
                         "https://nextface-api.onrender.com"
                 )
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
