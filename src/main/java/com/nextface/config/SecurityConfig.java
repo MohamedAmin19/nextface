@@ -30,7 +30,10 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")
-                .allowedOrigins("https://your-app-name.onrender.com")  // Render domain
+                .allowedOrigins(
+                        "http://localhost:5175",
+                        "https://nextface-api.onrender.com"
+                )
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*")
                 .allowCredentials(true);
