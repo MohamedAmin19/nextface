@@ -15,24 +15,16 @@ public class PortalUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Email is required")
-    @Email(message = "Email should be valid")
     private String email;
 
-    @NotBlank(message = "Name is required")
     private String name;
 
-    @NotBlank(message = "Nationality is required")
     private String nationality;
 
-    @NotBlank(message = "PhoneNumber is required")
-    @Pattern(regexp = "^01\\d{9}$", message = "Phone number must be 11 digits and start with 01")
     private String phoneNumber;
 
-    @NotBlank(message = "Organization Name is required")
     private String organizationName;
 
-    @NotBlank(message = "Speciality is required")
     private String speciality;
 
 

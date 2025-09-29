@@ -2,7 +2,9 @@ package com.nextface.controller;
 
 import com.nextface.entity.PortalUser;
 import com.nextface.repository.PortalUserRepository;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,16 +22,22 @@ public class PortalUserController {
     }
 
     @PostMapping("/register")
-    public String register(@RequestBody PortalUser user) {
+    public ResponseEntity<String> register(@RequestBody @Valid PortalUser user) {
+
         if (repo.existsByEmail(user.getEmail())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Already registered");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already registered");
         }
+
+        if (repo.existsByPhoneNumber(user.getPhoneNumber())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Phone number already registered");
+        }
+
         repo.save(user);
-        return "Registered successfully";
+        return ResponseEntity.status(HttpStatus.CREATED).body("Registered successfully");
     }
 
     @ExceptionHandler(ResponseStatusException.class)
-    public String handleResponseStatusException(ResponseStatusException e) {
-        return e.getReason();
+    public ResponseEntity<String> handleResponseStatusException(ResponseStatusException e) {
+        return ResponseEntity.status(e.getStatusCode()).body(e.getReason());
     }
 }
