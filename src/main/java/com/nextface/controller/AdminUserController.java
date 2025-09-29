@@ -27,10 +27,20 @@ public class AdminUserController {
     public Page<PortalUser> getUsers(@RequestParam(defaultValue = "") String name,
                                      @RequestParam(defaultValue = "0") int page,
                                      @RequestParam(defaultValue = "10") int size,
-                                     @RequestHeader("Authorization") String authHeader) {
+                                     @RequestHeader(value = "Authorization", required = false) String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Authorization header missing or invalid");
+        }
         String token = authHeader.replace("Bearer ", "");
-        String user = jwtUtil.validateToken(token);
-        if (user == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
+        try {
+            String user = jwtUtil.validateToken(token);
+            if (user == null) {
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
+            }
+        } catch (io.jsonwebtoken.JwtException e) {
+
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid or expired token");
+        }
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         return repo.findAllByNameContainingIgnoreCase(name, pageable);
     }
