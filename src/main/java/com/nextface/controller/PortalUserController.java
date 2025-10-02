@@ -2,6 +2,7 @@ package com.nextface.controller;
 
 import com.nextface.entity.PortalUser;
 import com.nextface.repository.PortalUserRepository;
+import com.nextface.service.EmailService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +17,11 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/api/portal/users")
 public class PortalUserController {
     private final PortalUserRepository repo;
+    private final EmailService emailService;
 
-    public PortalUserController(PortalUserRepository repo) {
+    public PortalUserController(PortalUserRepository repo, EmailService emailService) {
         this.repo = repo;
+        this.emailService = emailService;
     }
 
     @PostMapping("/register")
@@ -33,6 +36,7 @@ public class PortalUserController {
         }
 
         repo.save(user);
+        emailService.sendReservationEmail(user.getEmail(), user.getName());
         return ResponseEntity.status(HttpStatus.CREATED).body("Registered successfully");
     }
 
