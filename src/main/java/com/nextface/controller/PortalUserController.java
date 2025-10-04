@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/api/portal/users")
 public class PortalUserController {
@@ -25,7 +27,7 @@ public class PortalUserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody @Valid PortalUser user) {
+    public ResponseEntity<String> register(@RequestBody @Valid PortalUser user) throws IOException {
 
         if (repo.existsByEmail(user.getEmail())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already registered");
