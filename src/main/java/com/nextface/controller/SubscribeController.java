@@ -2,6 +2,7 @@ package com.nextface.controller;
 
 import com.nextface.entity.Subscribe;
 import com.nextface.service.SubscribeService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +30,12 @@ public class SubscribeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Subscribe>> getAllEmails(@RequestParam(value = "email", required = false) String email) {
-        List<Subscribe> emails = subscribeService.getAllEmails(email);
+    public ResponseEntity<Page<Subscribe>> getAllEmails(
+            @RequestParam(value = "email", required = false) String email,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size) {
+
+        Page<Subscribe> emails = subscribeService.getAllEmails(email, page, size);
         return ResponseEntity.ok(emails);
     }
 

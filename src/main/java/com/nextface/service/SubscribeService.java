@@ -2,6 +2,8 @@ package com.nextface.service;
 
 import com.nextface.entity.Subscribe;
 import com.nextface.repository.SubscribeRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,10 +27,10 @@ public class SubscribeService {
         return "Subscribed successfully";
     }
 
-    public List<Subscribe> getAllEmails(String email) {
+    public Page<Subscribe> getAllEmails(String email, int page, int size) {
         if (email != null && !email.isEmpty()) {
-            return subscribeRepository.findByEmail(email);
+            return subscribeRepository.findByEmailContaining(email, PageRequest.of(page, size));
         }
-        return subscribeRepository.findAll();
+        return subscribeRepository.findAll(PageRequest.of(page, size));
     }
 }
