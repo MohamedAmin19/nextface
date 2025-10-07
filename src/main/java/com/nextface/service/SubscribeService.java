@@ -25,7 +25,10 @@ public class SubscribeService {
         return "Subscribed successfully";
     }
 
-    public List<Subscribe> getAllEmails() {
+    public List<Subscribe> getAllEmails(String email) {
+        if (email != null && !email.isEmpty()) {
+            return subscribeRepository.findByEmail(email);
+        }
         return subscribeRepository.findAll();
     }
 }

@@ -29,8 +29,9 @@ public class SubscribeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Subscribe>> getAllEmails() {
-        return ResponseEntity.ok(subscribeService.getAllEmails());
+    public ResponseEntity<List<Subscribe>> getAllEmails(@RequestParam(value = "email", required = false) String email) {
+        List<Subscribe> emails = subscribeService.getAllEmails(email);
+        return ResponseEntity.ok(emails);
     }
 
     public static class EmailRequest {
