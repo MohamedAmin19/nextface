@@ -1,5 +1,6 @@
 package com.nextface.entity;
 
+import com.nextface.entity.enums.AirportName;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -27,6 +28,11 @@ public class PortalUser {
 
     private String speciality;
 
+    private String flightDetails;
+
+    @Enumerated(EnumType.STRING)
+    private AirportName airportName;
+
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
@@ -53,6 +59,7 @@ public class PortalUser {
     public void setSpeciality(String speciality) {
         this.speciality = speciality;
     }
+    public void setAirportName(AirportName airportName) { this.airportName = airportName; }
 
     public String getEmail() {
         return email;
@@ -75,4 +82,5 @@ public class PortalUser {
     public String getSpeciality() {
         return speciality;
     }
+    public AirportName getAirportName() { return airportName; }
 }
