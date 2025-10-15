@@ -2,9 +2,6 @@ package com.nextface.entity;
 
 import com.nextface.entity.enums.AirportName;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -60,6 +57,7 @@ public class PortalUser {
         this.speciality = speciality;
     }
     public void setAirportName(AirportName airportName) { this.airportName = airportName; }
+    public void setFlightDetails(String flightDetails) { this.flightDetails = flightDetails; }
 
     public String getEmail() {
         return email;
@@ -83,4 +81,5 @@ public class PortalUser {
         return speciality;
     }
     public AirportName getAirportName() { return airportName; }
+    public String getFlightDetails() { return flightDetails; }
 }
