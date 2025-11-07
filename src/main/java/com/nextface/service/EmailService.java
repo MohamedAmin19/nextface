@@ -27,6 +27,7 @@ public class EmailService {
                 + "<p>Looking forward to seeing you at the event! 🚀</p>"
                 + "<p>Best regards,<br><b>NextFace Team</b></p>";
 
+
         Content content = new Content("text/html", body);
         Mail mail = new Mail(fromEmail, subject, toEmail, content);
 
