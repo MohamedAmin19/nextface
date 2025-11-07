@@ -18,12 +18,16 @@ public class EmailService {
         Email fromEmail = new Email("reservations@nextfaceofficial.com");
         Email toEmail = new Email(to);
         String subject = "Welcome to Next Face";
-        String body = "Hi " + name + ",\n\n"
-                + "Thank you for registering with NextFace! "
-                + "Your reservation has been successfully created.\n\n"
-                + "Best regards,\nNextFace Team";
+        String body = "<p>Hi " + name + ",</p>"
+                + "<p>We're excited to have you on board! 🎉<br>"
+                + "Your reservation with <b>NextFace</b> has been successfully created.</p>"
+                + "<p>📅 <b>Event Program:</b><br>"
+                + "<a href='https://drive.google.com/drive/folders/1SPszFT5VSpRz0yxwxJJKss7gKE9Uz8qk?usp=drive_link'>Click here to view the Event Program</a></p>"
+                + "<p>If you have any questions, feel free to contact us anytime.</p>"
+                + "<p>Looking forward to seeing you at the event! 🚀</p>"
+                + "<p>Best regards,<br><b>NextFace Team</b></p>";
 
-        Content content = new Content("text/plain", body);
+        Content content = new Content("text/html", body);
         Mail mail = new Mail(fromEmail, subject, toEmail, content);
 
         // SendGrid client uses the API key from the environment variable
